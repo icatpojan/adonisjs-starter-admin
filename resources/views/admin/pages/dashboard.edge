@@ -1,0 +1,53 @@
+@layout('admin.layouts.app')
+@yield('content')
+<div class="container-fluid mb-2" style="margin-top: 50px">
+    <div class="card mb-2">
+        <div class="card-body">
+            <label>DASBOARD</label>
+            <hr> Selamat Datang <strong>{{ user.name }}</strong>
+        </div>
+    </div>
+    @if(flashMessage('notification'))
+    <div class="alert alert-success">{{ flashMessage('notification') }}</div>
+    @endif
+    <div class="card mt-4">
+        <div class="card-header">
+            DATA POSTS
+        </div>
+        <div class="card-body">
+            <a href="{{ route('posts.create') }}" class="btn btn-success btn-md" style="margin-bottom: 10px">TAMBAH
+                POST</a>
+            <table class="table table-hovered table-striped table-bordered" id="myTable">
+                <thead>
+                    <tr>
+                        <td>TITLE</td>
+                        <td>CONTENT</td>
+                        <td>AKSI</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @each(post in posts)
+                    <tr>
+                        <td> {{ post.title }} </td>
+                        <td> {{ post.content }} </td>
+                        <td class="text-center">
+                            <a href="{{ route('posts.edit', { id : post.id }) }}"
+                                class="btn btn-sm btn-primary">EDIT</a>
+                            <a href="{{ route('posts.delete', { id : post.id }) }}"
+                                class="btn btn-sm btn-danger">HAPUS</a>
+                        </td>
+                    </tr>
+                    @endeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endyield
+@yield('script')
+<script>
+    $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+</script>
+@endyield
